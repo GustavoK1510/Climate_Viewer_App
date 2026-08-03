@@ -38,7 +38,9 @@ class WeatherService {
       locationSettings: locationSettings,
     );
 
-    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    final geocoding = Geocoding();
+
+    List<Placemark> placemarks = await geocoding.placemarkFromCoordinates(position.latitude, position.longitude);
 
     String? city = placemarks[0].locality;
 
