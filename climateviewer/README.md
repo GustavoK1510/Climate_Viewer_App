@@ -1,17 +1,36 @@
-# climateviewer
+# 🌦️ Climate Viewer
 
-A weather app.
+**Climate Viewer** is a minimalist Flutter project that displays real-time weather information based on the user's current location.
 
-## Getting Started
+The application uses the **OpenWeather API** along with geolocation and reverse geocoding services to retrieve the user's city and display essential weather data in a clean and simple interface.
 
-This project is a starting point for a Flutter application.
+## ✨ Features
 
-A few resources to get you started if this is your first Flutter project:
+- 📍 Automatic location detection
+- 🌍 Reverse geocoding to identify the current city
+- 🌤️ Real-time weather information
+- 🌡️ Current temperature display
+- 🎬 Weather animations using Lottie
+- 🎨 Minimalist and easy-to-use interface
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 🛠️ Technologies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter
+- Dart
+- OpenWeather API
+- Geolocator
+- Geocoding
+- Lottie
+- HTTP
+
+## 🚀 Future Improvements
+
+The project is still under development. Planned features include:
+
+- 🌙 Dark Mode
+- 🎨 Improved user interface and overall layout
+- ➕ Additional weather information and new functionalities
+
+## 📌 Purpose
+
+This project was created as a simple learning exercise to practice Flutter development, API integration, geolocation, and asynchronous programming while maintaining a clean and minimalist design.
