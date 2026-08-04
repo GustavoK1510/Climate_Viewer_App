@@ -13,10 +13,17 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
+  // [SERVICE]
+  // Handles API requests and location retrieval.
   final _weatherService = WeatherService(dotenv.env['OPENWEATHER_API_KEY']!);
+
+  // [STATE]
+  // Stores the current weather information
   Weather? _weather;
 
-  _fetchWeather() async {
+  // [FETCH]
+  // Gets the user's current city and requests its weather data.
+  Future<void> _fetchWeather() async {
     String cityName = await _weatherService.getCurrentCity();
 
     try {
@@ -29,6 +36,8 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
+  // [ANIMATION]
+  // Returns the appropriate Lottie animation based on the weather condition.
   String getWeatherAnimation(String? mainCondition) {
     if (mainCondition == null) return 'assets/sunny.json';
 
@@ -61,6 +70,8 @@ class _WeatherPageState extends State<WeatherPage> {
   void initState() {
     super.initState();
 
+    // [INITIALIZATION]
+    // Loads weather data when the page is first displayed.
     _fetchWeather();
   }
 

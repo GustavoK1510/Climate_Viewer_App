@@ -3,9 +3,10 @@ import 'screens/weather_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
+  //Initializes and loads the .env file
   WidgetsFlutterBinding.ensureInitialized();
-
   await dotenv.load(fileName: ".env");
+
   runApp(MyApp());
 }
 
