@@ -5,7 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherService {
-  static const BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
+  static const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
   final String apiKey;
 
   WeatherService(this.apiKey);
@@ -15,7 +15,7 @@ class WeatherService {
       Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric'),
     );
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return Weather.fromjson(jsonDecode(response.body));
     } else {
       throw Exception('Falha ao carregar dados de clima');
@@ -44,6 +44,17 @@ class WeatherService {
 
     String? city = placemarks[0].locality;
 
+    final place = placemarks.first;
+
+    if (place.locality != null && place.locality!.isNotEmpty) {
+      city = place.locality!;
+    } else if (place.subAdministrativeArea != null &&
+        place.subAdministrativeArea!.isNotEmpty) {
+      city = place.subAdministrativeArea!;
+    }
+
     return city ?? "";
+
+
   }
 }

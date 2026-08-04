@@ -1,5 +1,7 @@
 import 'package:climateviewer/services/weather_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:lottie/lottie.dart';
 
 import '../models/weather_model.dart';
 
@@ -11,7 +13,7 @@ class WeatherPage extends StatefulWidget {
 }
 
 class _WeatherPageState extends State<WeatherPage> {
-  final _weatherService = WeatherService('00a245edb4a9216d6d9285ba5a67e3a5');
+  final _weatherService = WeatherService(dotenv.env['OPENWEATHER_API_KEY']!);
   Weather? _weather;
 
   _fetchWeather() async {
@@ -27,6 +29,34 @@ class _WeatherPageState extends State<WeatherPage> {
     }
   }
 
+  String getWeatherAnimation(String? mainCondition) {
+    if (mainCondition == null) return 'assets/sunny.json';
+
+    switch (mainCondition.toLowerCase()) {
+      case 'clouds':
+      case 'mist':
+      case 'dust':
+      case 'smoke':
+      case 'haze':
+      case 'fog':
+        return 'assets/windy.json';
+
+      case 'rain':
+      case 'drizzle':
+      case 'shower rain':
+        return 'assets/rain.json';
+
+      case 'thunderstorm':
+        return 'assets/storm.json';
+
+      case 'clear':
+        return 'assets/sunny.json';
+
+      default:
+        return 'assets/sunny.json';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -37,14 +67,20 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(_weather?.cityName ?? 'loading city...'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(_weather?.cityName ?? 'loading city...'),
 
-          Text('${_weather?.temperature.round()}°C')
-        ],
+            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+
+            Text('${_weather?.temperature.round()}°C'),
+
+            Text(_weather?.mainCondition ?? ""),
+          ],
+        ),
       ),
     );
   }
