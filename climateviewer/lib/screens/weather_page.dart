@@ -1,18 +1,24 @@
-import 'package:climateviewer/services/weather_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:lottie/lottie.dart';
 
 import '../models/weather_model.dart';
+import '../services/weather_service.dart';
 
 class WeatherPage extends StatefulWidget {
-  const WeatherPage({super.key});
+  final String cityName;
+
+  const WeatherPage({
+    super.key,
+    required this.cityName,
+  });
 
   @override
   State<WeatherPage> createState() => _WeatherPageState();
 }
 
 class _WeatherPageState extends State<WeatherPage> {
+
   // [SERVICE]
   // Handles API requests and location retrieval.
   final _weatherService = WeatherService(dotenv.env['OPENWEATHER_API_KEY']!);
@@ -22,12 +28,11 @@ class _WeatherPageState extends State<WeatherPage> {
   Weather? _weather;
 
   // [FETCH]
-  // Gets the user's current city and requests its weather data.
+  // Gets the weather data for the searched city.
   Future<void> _fetchWeather() async {
-    String cityName = await _weatherService.getCurrentCity();
 
     try {
-      final weather = await _weatherService.getWeather(cityName);
+      final weather = await _weatherService.getWeather(widget.cityName);
       setState(() {
         _weather = weather;
       });
@@ -78,20 +83,40 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(_weather?.cityName ?? 'loading city...'),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 15),
+            child: Row(
+              children: [
+                IconButton(onPressed: () {
+                  Navigator.pop(context);
+                },
+                  icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 130),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(_weather?.cityName ?? 'loading city...'),
 
-            Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
+                Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
 
-            Text('${_weather?.temperature.round()}°C'),
+                Text('${_weather?.temperature.round()}°C'),
 
-            Text(_weather?.mainCondition ?? ""),
-          ],
-        ),
+                Text(_weather?.mainCondition ?? ""),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

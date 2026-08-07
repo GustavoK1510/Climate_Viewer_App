@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/weather_page.dart';
+import 'screens/home_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
+      home: HomePage(),
     );
   }
 }
